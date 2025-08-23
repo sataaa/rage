@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # The LocalStack service that runs continuously
+  localstack:
+    container_name: localstack_main
+    image: localstack/localstack
+    # Set this to always restart so it's always running
+    restart: always
+    ports:
+      - "127.0.0.1:4566:4566"
+    environment:
+      - SERVICES=cognito-idp,apigateway,lambda,dynamodb
+      # DOCKER_HOST is needed for Lambda functions to run their code
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./.localstack:/var/lib/localstack"
+    networks:
+      - local-services
+
+  # The Terraform service to provision infrastructure
+  terraform:
+    container_name: terraform
+    # Build from the Dockerfile in the iac directory
+    build: ./iac
+    # `depends_on` ensures localstack is running before terraform starts
+    depends_on:
+      - localstack
+    environment:
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_REGION=us-east-1
+      - AWS_ENDPOINT_URL=http://localstack:4566
+    volumes:
+      # Mount the iac directory to the container
+      - ./iac:/usr/src/app
+    # The command to run. This will execute the Terraform code and then the container will exit.
+    command: ["init", "&&", "tflocal", "apply", "-auto-approve"]
+    networks:
+      - local-services
+
+  # The Java service for your back-end logic
+  java-service:
+    container_name: rage-bff
+    build: ./services/rage-bff
+    # Wait for the infrastructure to be provisioned before starting
+    depends_on:
+      - terraform
+    ports:
+      - "8080:8080"
+    environment:
+      # Example environment variable to connect to localstack
+      - API_ENDPOINT_URL=http://localstack:4566
+    networks:
+      - local-services
+
+  # The Python service for another part of your back-end logic
+  python-service:
+    container_name: rage-ai
+    build: ./services/rage-ai
+    depends_on:
+      - terraform
+    ports:
+      - "8000:8000"
+    environment:
+      - AWS_ENDPOINT_URL=http://localstack:4566
+    networks:
+      - local-services
+
+networks:
+  local-services:
+    driver: bridge
