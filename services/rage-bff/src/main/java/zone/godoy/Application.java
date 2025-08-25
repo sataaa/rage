@@ -11,11 +11,12 @@ import java.time.LocalDateTime;
 public class Application {
 
     public static void main(String[] args) {
+        System.out.println("Starting java rage-bff service...");
         SpringApplication.run(Application.class, args);
     }
 
     @Scheduled(fixedDelay = 60000)
-    public void printHelloWithTimestamp() {
+    public void printKeepAliveMessage() {
         System.out.println("java rage-bff running " + LocalDateTime.now());
     }
 }
