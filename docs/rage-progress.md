@@ -17,6 +17,7 @@
 **2. Python AI Inference Service (Private Backend)**
 * **Description:** A specialized FastAPI service responsible for running the LLM and embedding models.
 * **Status:** 🟡 **Started**
+
 * **Progress:** The service directory (`services/rage-ai`), a placeholder Python file, and a `Dockerfile` have been created. The service is integrated into `docker-compose`. A placeholder `/chat` endpoint is working. The codebase is structured to follow Clean Architecture principles. The FastAPI wrapper is implemented. The `/embeddings` endpoint has been implemented successfully. 
 * **Remaining Tasks:** Implement the FastAPI application logic for the `/chat` endpoints. Integrate `llama-cpp-python` and the sentence-transformer models to provide actual AI functionality. Create unit tests, linting and coverage validations to run before being able to run the service. Create integrated tests to run in CI/CD after deploy.
 
