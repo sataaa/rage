@@ -1,0 +1,11 @@
+.localstack/
+
+*/.terraform*
+
+**/*/.gradle*
+**/*/.idea*
+**/*/build*
+**/*/gradle*
+*/terraform.tfstate*
+
+**/*/__pycache__*
