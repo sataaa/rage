@@ -52,8 +52,11 @@ services:
       - terraform
     ports:
       - "8000:8000"
+    volumes:
+      - ./services/rage-ai/src:/app
     environment:
       - AWS_ENDPOINT_URL=http://localstack:4566
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
     networks:
       - local-services
 
