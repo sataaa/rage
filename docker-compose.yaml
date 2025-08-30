@@ -6,10 +6,11 @@ services:
     image: localstack/localstack
     restart: always
     ports:
-      - "127.0.0.1:4566:4566"
+      - "4566:4566"
     environment:
+      - AWS_DEFAULT_REGION=us-east-1
       - SERVICES=cognito-idp,apigateway,lambda,dynamodb
-      - DOCKER_HOST=unix:///var/run/docker.sock # DOCKER_HOST is needed for Lambda functions to run their code
+      - DOCKER_HOST=unix:///var/run/docker.sock
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "./.localstack:/var/lib/localstack"
@@ -28,7 +29,7 @@ services:
       - AWS_ENDPOINT_URL=http://localstack:4566
     volumes:
       - ./iac:/usr/src/app
-    command: ["init", "&&", "tflocal", "apply", "-auto-approve"]
+    command: sh -c "tflocal init && tflocal apply -auto-approve"
     networks:
       - local-services
 

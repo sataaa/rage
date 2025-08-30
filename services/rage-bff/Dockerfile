@@ -15,7 +15,6 @@ WORKDIR /app
 
 COPY --from=builder /usr/src/app/build/libs/rage-bff.jar .
 
-# Expose a port for potential API Gateway connections
 EXPOSE 8000
 
 ENTRYPOINT ["java", "-jar", "rage-bff.jar"]

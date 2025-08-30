@@ -1,9 +1,12 @@
 FROM python:3.11-slim
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY src/keep_alive.py .
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY src/chat_server.py .
 
 EXPOSE 8000
 
-CMD ["python3", "keep_alive.py"]
+CMD ["uvicorn", "chat_server:app", "--host", "0.0.0.0", "--port", "8000"]

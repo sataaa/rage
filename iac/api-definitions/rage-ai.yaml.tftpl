@@ -1,0 +1,33 @@
+openapi: 3.0.1
+info:
+  title: "RAGE API"
+  description: "The main API for RAGE"
+  version: "1.0.0"
+paths:
+  /chat:
+    post:
+      summary: "Sends a prompt to the RAGE AI assistant"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt:
+                  type: string
+                  example: "How do I get the 'Master of Unlocking' achievement in Resident Evil?"
+      responses:
+        "200":
+          description: "Successful response from the AI"
+          content:
+            application/json:
+              schema:
+                type: object
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        httpMethod: "POST"
+        uri: "${backend_uri}"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK" 
+        
