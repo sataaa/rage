@@ -12,7 +12,7 @@ resource "aws_api_gateway_rest_api" "rage_api" {
   description = "The main API Gateway for the RAGE project"
 
   body = templatefile("${path.module}/api-definitions/rage-ai.yaml.tftpl", {
-    backend_uri = "http://rage-ai:8000/chat"
+    backend_uri = "http://rage-ai:8000"
   })
 }
 
@@ -21,7 +21,7 @@ resource "aws_api_gateway_deployment" "api_deployment" {
 
   triggers = {
     redeployment = sha1(templatefile("${path.module}/api-definitions/rage-ai.yaml.tftpl", {
-      backend_uri = "http://rage-ai:8000/chat"
+      backend_uri = "http://rage-ai:8000"
     }))
   }
 

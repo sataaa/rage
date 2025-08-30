@@ -27,7 +27,41 @@ paths:
       x-amazon-apigateway-integration:
         type: "http_proxy"
         httpMethod: "POST"
-        uri: "${backend_uri}"
+        uri: "${backend_uri}/chat"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK" 
-        
+  /embeddings:
+    post:
+      summary: "Requests an embedding using the server model"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  example: "How do I find the secret entrance in the wall in Full Throttle?"
+      responses:
+        "200":
+          description: "Successful embedding"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  embeddings:
+                    type: array
+                    items:
+                      type: number
+                    example: "[0.019174499437212944,-0.045545537024736404,-0.0149582140147686,-0.05264071747660637,-0.03069937787950039,0.0013246954185888171]"
+                  model:
+                    type: string
+                    example: "Qwen/Qwen3-Embedding-0.6B"
+      x-amazon-apigateway-integration:
+        type: "http_proxy"
+        httpMethod: "POST"
+        uri: "${backend_uri}/embeddings"
+        passthroughBehavior: "when_no_match"
+        connectionType: "VPC_LINK" 
