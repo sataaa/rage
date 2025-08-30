@@ -2,7 +2,7 @@
 
 **Core Objective:** To build an AI-powered assistant that uses a Retrieval-Augmented Generation (RAG) pipeline to provide hints and identify missable achievements in retro video games. The project is being built using a modern microservices architecture and will be deployed via a professional CI/CD and Infrastructure as Code (IaC) workflow.
 
-**Current Status:** **In Progress.** The local development environment and initial service skeletons have been established.
+**Current Status:** **In Progress.** The local development environment and initial service skeletons have been established. `rage-ai` Python server has been created, `/embeddings` endpoint works with the exposed API through API Gateway.
 
 ---
 
@@ -17,8 +17,9 @@
 **2. Python AI Inference Service (Private Backend)**
 * **Description:** A specialized FastAPI service responsible for running the LLM and embedding models.
 * **Status:** 🟡 **Started**
-* **Progress:** The service directory (`services/rage-ai`), a placeholder Python file, and a `Dockerfile` have been created. The service is integrated into `docker-compose`. A placeholder `/chat` endpoint is working. The codebase is structured to follow Clean Architecture principles. The `/embeddings` endpoint has been implementated successfully. 
-* **Remaining Tasks:** Implement the FastAPI application logic, including the `/embeddings` and `/chat` endpoints. Integrate `llama-cpp-python` and the sentence-transformer models to provide actual AI functionality. Extract everything from `main.py` to the correct created files and directories. The files are created but are empty. Create unit tests, linting and coverage validations to run before being able to run the service. Create integrated tests to run in CI/CD after deploy.
+
+* **Progress:** The service directory (`services/rage-ai`), a placeholder Python file, and a `Dockerfile` have been created. The service is integrated into `docker-compose`. A placeholder `/chat` endpoint is working. The codebase is structured to follow Clean Architecture principles. The FastAPI wrapper is implemented. The `/embeddings` endpoint has been implemented successfully. 
+* **Remaining Tasks:** Implement the FastAPI application logic for the `/chat` endpoints. Integrate `llama-cpp-python` and the sentence-transformer models to provide actual AI functionality. Create unit tests, linting and coverage validations to run before being able to run the service. Create integrated tests to run in CI/CD after deploy.
 
 **3. Java/Spring Boot BFF Service (Public-Facing API)**
 * **Description:** A Java 21/Spring Boot 3 service that acts as the secure public entry point (Backend for Frontend).
@@ -28,7 +29,7 @@
 
 **4. API Security Layer**
 * **Description:** Secures the Java BFF using an AWS API Gateway with a built-in Cognito User Pool Authorizer.
-  * **Status:** 🟡 **Started**
+* **Status:** 🟡 **Started**
 * **Progress:** Terraform setup for the API Gateway is complete and successfully deploys to LocalStack.
 * **Remaining Tasks:** Define the Cognito User Pool in Terraform. Configure the API Gateway in Terraform to use the Cognito Authorizer for the BFF's routes.
 * **Dependencies:** `3. Java/Spring Boot BFF Service`.
