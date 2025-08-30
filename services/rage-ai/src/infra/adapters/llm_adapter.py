@@ -13,9 +13,9 @@ class LLMAdapter:
         Initializes the SentenceTransformer model.
         """
         try:
-            model = 'Qwen/Qwen3-Embedding-0.6B'
-            print(f"Loading SentenceTransformer model ({model})")
-            self.embedding_model = SentenceTransformer(model)
+            self.model = 'Qwen/Qwen3-Embedding-0.6B'
+            print(f"Loading SentenceTransformer model ({self.model})")
+            self.embedding_model = SentenceTransformer(self.model)
             print("Successfully loaded SentenceTransformer model.")
         except Exception as e:
             print(f"Error loading SentenceTransformer model: {e}")
@@ -47,7 +47,6 @@ class LLMAdapter:
         Returns:
             The generated chat response.
         """
-        # In your final implementation, you would use llama-cpp-python here.
-        # For now, we'll return a static, mock response.
+        # missing implementation
         print(f"Generating chat response for prompt: '{prompt}'")
         return f"Hello from the FastAPI server! Your prompt was: {prompt}"

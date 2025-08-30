@@ -17,14 +17,14 @@
 **2. Python AI Inference Service (Private Backend)**
 * **Description:** A specialized FastAPI service responsible for running the LLM and embedding models.
 * **Status:** 🟡 **Started**
-* **Progress:** The service directory (`services/rage-ai`), a placeholder Python file, and a `Dockerfile` have been created. The service is integrated into `docker-compose`. A placeholder `/chat` endpoint is working. The codebase is structured to follow Clean Architecture principles.
-* **Remaining Tasks:** Implement the FastAPI application logic, including the `/embeddings` and `/chat` endpoints. Integrate `llama-cpp-python` and the sentence-transformer models to provide actual AI functionality. Extract everything from `main.py` to the correct created files and directories. The files are created but are empty.
+* **Progress:** The service directory (`services/rage-ai`), a placeholder Python file, and a `Dockerfile` have been created. The service is integrated into `docker-compose`. A placeholder `/chat` endpoint is working. The codebase is structured to follow Clean Architecture principles. The `/embeddings` endpoint has been implementated successfully. 
+* **Remaining Tasks:** Implement the FastAPI application logic, including the `/embeddings` and `/chat` endpoints. Integrate `llama-cpp-python` and the sentence-transformer models to provide actual AI functionality. Extract everything from `main.py` to the correct created files and directories. The files are created but are empty. Create unit tests, linting and coverage validations to run before being able to run the service. Create integrated tests to run in CI/CD after deploy.
 
 **3. Java/Spring Boot BFF Service (Public-Facing API)**
 * **Description:** A Java 21/Spring Boot 3 service that acts as the secure public entry point (Backend for Frontend).
 * **Status:** 🟡 **Started**
 * **Progress:** The Gradle project structure (`services/rage-bff`), a placeholder `Application.java`, and a `Dockerfile` have been created. The service is integrated into `docker-compose`. The codebase is structured to follow Clean Architecture principles.
-* **Remaining Tasks:** Implement the primary REST controllers. Establish the service-to-service communication with the `rage-ai` service via the internal API Gateway. Integrate OpenAPI (`springdoc-openapi`) documentation. Extract everything from `Application.java` into the correct packages and java files created, implement the service itself. The files are created but are empty.
+* **Remaining Tasks:** Implement the primary REST controllers. Establish the service-to-service communication with the `rage-ai` service via the internal API Gateway. Integrate OpenAPI (`springdoc-openapi`) documentation. Extract everything from `Application.java` into the correct packages and java files created, implement the service itself. The files are created but are empty. Create unit tests, linting and coverage validations to run before being able to run the service. Create integrated tests to run in CI/CD after deploy.
 
 **4. API Security Layer**
 * **Description:** Secures the Java BFF using an AWS API Gateway with a built-in Cognito User Pool Authorizer.
@@ -48,8 +48,8 @@
 **7. Infrastructure as Code (IaC) & Kubernetes**
 * **Description:** Terraform and Kubernetes manifests defining the cloud infrastructure and application deployments.
 * **Status:** ✅ **In Progress**
-* **Progress:** The `iac` directory is set up with `main.tf` and `variables.tf`. A containerized Terraform environment is defined in `docker-compose` to automatically apply configurations against LocalStack. The API Gateway configuration for the `rage-bff` service is complete.
-* **Remaining Tasks:** Add the Cognito User Pool to the Terraform configuration. Define the specific AWS resources (S3, API Gateway, Lambdas, etc.) in Terraform. Create the Kubernetes manifests for each service. Create a different API gateway for the rage-ai, so it can be called independently from the BFF api gateway, with different security for each endpoint (and so that the `/chat` endpoint can be replicated on both). Use the gateway ID and uris as an output, `rage-ai`'s for the `rage-bff` configuration, and `rage-bff`'s for `rage-front`'s configuration.
+* **Progress:** The `iac` directory is set up with `main.tf` and `variables.tf`. A containerized Terraform environment is defined in `docker-compose` to automatically apply configurations against LocalStack. The API Gateway configuration for the `rage-bff` service is complete. The swagger for the `rage-ai`'s `/embeddings` and `/chat` are defined and are being configured in the Localstack's API Gateway service.
+* **Remaining Tasks:** Add the Cognito User Pool to the Terraform configuration. Define the specific AWS resources (S3, API Gateway, Lambdas, etc.) in Terraform. Create the Kubernetes manifests for each service. Create a different API gateway for the rage-bff, so it can be called independently from the rage-ai gateway, with different security for each endpoint (and so that the `/chat` endpoint can be replicated on both). Use the gateway ID and uris as an output, `rage-ai`'s for the `rage-bff` configuration, and `rage-bff`'s for `rage-front`'s configuration.
 
 **8. CI/CD Pipeline**
 * **Description:** A GitHub Actions workflow to automate building, testing, and infrastructure validation.
