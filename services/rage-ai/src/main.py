@@ -18,10 +18,11 @@ async def chat_endpoint(request_body: ChatRequest):
     Logs the request to an in-memory list.
     """
     timestamp = datetime.datetime.now().isoformat()
+    response = {"message": "Hello from the FastAPI server! Your prompt was: " + request_body.prompt}
     log_entry = {
         "timestamp": timestamp,
         "received_prompt": request_body.prompt,
-        "response": "This is a placeholder response from the FastAPI server."
+        "response": response
     }
     
     request_log.append(log_entry)
@@ -30,7 +31,7 @@ async def chat_endpoint(request_body: ChatRequest):
 
     print(f"[{timestamp}] Received prompt: '{request_body.prompt}'")
     
-    return {"message": "Hello from the FastAPI server! Your prompt was: " + request_body.prompt}
+    return response
 
 @app.get("/logs")
 async def get_logs():
